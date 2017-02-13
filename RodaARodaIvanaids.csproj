@@ -61,19 +61,53 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="admin\admin[.master.cs">
+      <DependentUpon>admin[.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\admin[.master.designer.cs">
+      <DependentUpon>admin[.master</DependentUpon>
+    </Compile>
+    <Compile Include="main.Master.cs">
+      <DependentUpon>main.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="main.Master.designer.cs">
+      <DependentUpon>main.Master</DependentUpon>
+    </Compile>
     <Compile Include="Model\Premio.cs" />
     <Compile Include="Model\PremioSorteio.cs" />
     <Compile Include="Model\Sorteio.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="public\public.master.cs">
+      <DependentUpon>public.master</DependentUpon>
+    </Compile>
+    <Compile Include="public\public.master.designer.cs">
+      <DependentUpon>public.master</DependentUpon>
+    </Compile>
+    <Compile Include="user\user.master.cs">
+      <DependentUpon>user.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user\user.master.designer.cs">
+      <DependentUpon>user.master</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="main.Master" />
+    <Content Include="public\public.master" />
+    <Content Include="admin\admin[.master" />
+    <Content Include="user\user.master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DAL\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
