@@ -8,18 +8,18 @@ using System.Web;
 
 namespace RodaARodaIvanaids.DAL
 {
-    public class DALPremio : DAL
+    public class DALPremioSorteio : DAL
     {
         [DataObjectMethod(DataObjectMethodType.Select)]
-        public static List<Premio> SelectAll()
+        public static List<PremioSorteio> SelectAll()
         {
-            List<Premio> lista = new List<Premio>();
-            Premio obj;
+            List<PremioSorteio> lista = new List<PremioSorteio>();
+            PremioSorteio obj;
             try
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "SELECT * FROM Premio";
+                    string query = "SELECT * FROM PremioSorteio";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader dr;
                     using (dr = cmd.ExecuteReader())
@@ -27,13 +27,16 @@ namespace RodaARodaIvanaids.DAL
                         if (dr.HasRows)
                         {
                             int id;
-                            string nome, descricao;
+                            Premio p = new Premio();
+                            DateTime d;
+                            Usuario u = new Usuario();
                             while (dr.Read())
                             {
                                 id = (Int32)dr["id"];
-                                nome = (string)dr["nome"];
-                                descricao = (string)dr["descricao"];
-                                obj = new Premio(id, nome, descricao);
+                                p = DALPremio.Select((Int32)dr["Premio_id"]);
+                                d = (DateTime)dr["dataSorteio"];
+                                u = DALUsuario.Select((Int32)dr["Usuario_id"]);
+                                obj = new PremioSorteio(id, p, d, u);
                                 lista.Add(obj);
                             }
                         }
@@ -47,14 +50,14 @@ namespace RodaARodaIvanaids.DAL
             return lista;
         }
         [DataObjectMethod(DataObjectMethodType.Select)]
-        public static Premio Select(int id)
+        public static PremioSorteio Select(int id)
         {
-            Premio obj = new Premio();
+            PremioSorteio obj = new PremioSorteio() ;
             try
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "SELECT * FROM Premio WHERE id = @id";
+                    string query = "SELECT * FROM PremioSorteio WHERE id = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
                     MySqlDataReader dr;
@@ -62,12 +65,16 @@ namespace RodaARodaIvanaids.DAL
                     {
                         if (dr.HasRows)
                         {
-                            string nome, descricao;
+                            Premio p = new Premio();
+                            DateTime d;
+                            Usuario u = new Usuario();
                             while (dr.Read())
                             {
-                                nome = (string)dr["nome"];
-                                descricao = (string)dr["descricao"];
-                                obj = new Premio(id, nome, descricao);
+                                id = (Int32)dr["id"];
+                                p = DALPremio.Select((Int32)dr["Premio_id"]);
+                                d = (DateTime)dr["dataSorteio"];
+                                u = DALUsuario.Select((Int32)dr["Usuario_id"]);
+                                obj = new PremioSorteio(id, p, d, u);
                             }
                         }
                     }
@@ -80,20 +87,21 @@ namespace RodaARodaIvanaids.DAL
             return obj;
         }
         [DataObjectMethod(DataObjectMethodType.Insert)]
-        public static int Insert(Premio obj)
+        public static int Insert(PremioSorteio obj)
         {
             int id = 0;
-            if (obj != new Premio())
+            if (obj != new PremioSorteio())
             {
                 try
                 {
                     using (conn = new MySqlConnection(dbString))
                     {
-                        string query = "INSERT INTO Premio (nome, descricao) VALUES (@nome, @descricao) SET IDENTITY_SCOPE = @id;";
+                        string query = "INSERT INTO PremioSorteio (Premio_id, dataSorteio, Usuario_id) VALUES (@Premio_id, @dataSorteio, @Usuario) SET IDENTITY_SCOPE = @id;";
                         MySqlCommand cmd = new MySqlCommand(query, conn);
                         cmd.Parameters["@id"].Direction = System.Data.ParameterDirection.Output;
-                        cmd.Parameters.Add("@nome", MySqlDbType.VarChar).Value = obj.nome;
-                        cmd.Parameters.Add("@descricao", MySqlDbType.VarChar).Value = obj.descricao;
+                        cmd.Parameters.Add("@Premio_id", MySqlDbType.Int32).Value = obj.premio.id;
+                        cmd.Parameters.Add("@Usuario_id", MySqlDbType.Int32).Value = obj.usuarioSorteado.id;
+                        cmd.Parameters.Add("@dataSorteio", MySqlDbType.DateTime).Value = obj.dataSorteio;
                         cmd.ExecuteNonQuery();
                         id = (Int32)cmd.Parameters["@id"].Value;
                     }
@@ -106,13 +114,13 @@ namespace RodaARodaIvanaids.DAL
             return id;
         }
         [DataObjectMethod(DataObjectMethodType.Delete)]
-        public static void Delete(Premio obj)
+        public static void Delete(PremioSorteio obj)
         {
             try
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "DELETE FROM Premio WHERE id = @id";
+                    string query = "DELETE FROM PremioSorteio WHERE id = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = obj.id;
                     cmd.ExecuteNonQuery();
@@ -124,19 +132,20 @@ namespace RodaARodaIvanaids.DAL
             }
         }
         [DataObjectMethod(DataObjectMethodType.Update)]
-        public static void Update(Premio obj)
+        public static void Update(PremioSorteio obj)
         {
-            if (obj != new Premio() && obj != Select(obj.id))
+            if (obj != new PremioSorteio() && obj != Select(obj.id))
             {
                 try
                 {
                     using (conn = new MySqlConnection(dbString))
                     {
-                        string query = "UPDATE Premio SET nome = @nome, descricao = @descricao WHERE id = @id;";
+                        string query = "UPDATE PremioSorteio SET Premio_id = @Premio_id, dataSorteio = @dataSorteio, Usuario_id = @Usuario_id WHERE id = @id;";
                         MySqlCommand cmd = new MySqlCommand(query, conn);
                         cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = obj.id;
-                        cmd.Parameters.Add("@nome", MySqlDbType.VarChar).Value = obj.nome;
-                        cmd.Parameters.Add("@descricao", MySqlDbType.VarChar).Value = obj.descricao;
+                        cmd.Parameters.Add("@Premio_id", MySqlDbType.Int32).Value = obj.premio.id;
+                        cmd.Parameters.Add("@Usuario_id", MySqlDbType.Int32).Value = obj.usuarioSorteado.id;
+                        cmd.Parameters.Add("@dataSorteio", MySqlDbType.DateTime).Value = obj.dataSorteio;
                         cmd.ExecuteNonQuery();
                     }
                 }

@@ -9,7 +9,9 @@ namespace RodaARodaIvanaids.DAL
 {
     public class DAL
     {
-        protected static string databaseString = ConfigurationManager.ConnectionStrings["dbServer"].ConnectionString;
+        // Tem que verificar se o usuário é adminstrador para logar com login de administrador no servidor de banco de dados
+        // Se não Ivanildo vai tirar nota.
+        protected static string dbString = ConfigurationManager.ConnectionStrings["dbServer"].ConnectionString;
         protected static MySqlConnection conn;
     }
 }

@@ -63,15 +63,16 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="admin\admin[.master.cs">
-      <DependentUpon>admin[.master</DependentUpon>
+    <Compile Include="admin\admin.master.cs">
+      <DependentUpon>admin.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="admin\admin[.master.designer.cs">
-      <DependentUpon>admin[.master</DependentUpon>
+    <Compile Include="admin\admin.master.designer.cs">
+      <DependentUpon>admin.master</DependentUpon>
     </Compile>
     <Compile Include="DAL\DAL.cs" />
     <Compile Include="DAL\DALPremio.cs" />
+    <Compile Include="DAL\DALPremioSorteio.cs" />
     <Compile Include="DAL\DALSorteio.cs" />
     <Compile Include="DAL\DALUsuario.cs" />
     <Compile Include="main.Master.cs">
@@ -103,7 +104,7 @@
   <ItemGroup>
     <Content Include="main.Master" />
     <Content Include="public\public.master" />
-    <Content Include="admin\admin[.master" />
+    <Content Include="admin\admin.master" />
     <Content Include="user\user.master" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
