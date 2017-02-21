@@ -1,5 +1,0 @@
-﻿<%@ Master Language="C#" MasterPageFile="~/main.Master" AutoEventWireup="true" CodeBehind="public.master.cs" Inherits="RodaARodaIvanaids.public._public" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="corpo" runat="server">
-</asp:Content>

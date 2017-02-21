@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RodaARodaIvanaids.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,6 +20,13 @@ namespace RodaARodaIvanaids.Model
             get { return _premios; }
             set { _premios = value; }
         }
+        private List<Usuario> _inscritos;
+        public List<Usuario> inscritos
+        {
+            get { return _inscritos; }
+            set { _inscritos = value; }
+        }
+        
         private DateTime _data;
         public DateTime data
         {
@@ -48,15 +56,17 @@ namespace RodaARodaIvanaids.Model
         {
             id = 0;
             premios = new List<PremioSorteio>();
+            inscritos = new List<Usuario>();
             data = new DateTime();
             nome = "";
             descricao = "";
             sorteado = false;
         }
-        public Sorteio(int i, List<PremioSorteio> p, DateTime d, string n, string desc)
+        public Sorteio(int i, List<PremioSorteio> p, DateTime d, string n, string desc, List<Usuario> u)
         {
             id = i;
             premios = p;
+            inscritos = u;
             data = d;
             nome = n;
             descricao = desc;
@@ -68,16 +78,47 @@ namespace RodaARodaIvanaids.Model
             {
                 PremioSorteio ps = new PremioSorteio();
                 ps.premio = p;
+                ps.dataSorteio = data;
+                ps.idSorteio = id;
+                premios.Add(ps);
+                DALPremioSorteio.Insert(ps);
             }
             else
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("Prêmio nulo");
             }
         }
-        // Mover isso para o DAL Sorteio
+        public void InscreverUsuario(Usuario u)
+        {
+            // Fazendo gambiarra pq preguiça
+            if (u != new Usuario() && u == DALUsuario.Select(u.id))
+            {
+                inscritos.Add(u);
+            }
+            else
+                throw new ArgumentException("Usuário inválido");
+        }
         // Parametros: id do Sorteio ou o próprio sorteio.
         public void Sortear()
         {
+            // Deveria ir pro DAL mas n vai não
+            if (sorteado == false)
+            {
+                List<Usuario> us = DALUsuario.SelectAllNonAdmin();
+                Usuario u;
+                int c = us.Count;
+                Random r = new Random();
+                int i;
+                foreach (var premio in premios)
+                {
+                    i = r.Next(c);
+                    u = us[c];
+                    premio.usuarioSorteado = u;
+                }
+                DALSorteio.Update(this);
+            }
+            else
+                throw new InvalidOperationException("Sorteio já realizado");
             /*
              * 0 - Verifica se o sorteio já não foi sorteado.
              * 1 - Pega a quantidade de usuários normais cadastrados no banco;
@@ -86,6 +127,7 @@ namespace RodaARodaIvanaids.Model
              * 3.1 - Se for admin, volte para 2.
              * 3.2 - Se não for admin, instância os objetos (premio, usuario, etc...) e registra no banco.
              */
+
         }
     }
 }

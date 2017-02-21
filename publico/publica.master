@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" MasterPageFile="~/main.Master" AutoEventWireup="true" CodeBehind="user.master.cs" Inherits="RodaARodaIvanaids.user.user" %>
+﻿<%@ Master Language="C#" MasterPageFile="~/main.Master" AutoEventWireup="true" CodeBehind="publica.master.cs" Inherits="RodaARodaIvanaids.publico.publica" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="corpo" runat="server">

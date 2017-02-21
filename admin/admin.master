@@ -2,4 +2,16 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="corpo" runat="server">
+        <div class="row">
+        	<div class="col-xs-12">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a>Cadastrar Usuário</a></li>
+                    <li class="list-inline-item"><a>Gerenciar Prêmios</a></li>
+                    <li class="list-inline-item"><a>Gerenciar Sorteios</a></li>
+                </ul>
+        	</div>
+        </div>
+    <asp:ContentPlaceHolder ID="corpoChild" runat="server">
+
+    </asp:ContentPlaceHolder>
 </asp:Content>

@@ -60,6 +60,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="admin\index.aspx" />
+    <Content Include="publico\index.aspx" />
+    <Content Include="publico\login.aspx" />
+    <Content Include="user\index.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +73,13 @@
     </Compile>
     <Compile Include="admin\admin.master.designer.cs">
       <DependentUpon>admin.master</DependentUpon>
+    </Compile>
+    <Compile Include="admin\index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
     </Compile>
     <Compile Include="DAL\DAL.cs" />
     <Compile Include="DAL\DALPremio.cs" />
@@ -87,11 +98,33 @@
     <Compile Include="Model\Sorteio.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="public\public.master.cs">
-      <DependentUpon>public.master</DependentUpon>
+    <Compile Include="publico\index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="public\public.master.designer.cs">
-      <DependentUpon>public.master</DependentUpon>
+    <Compile Include="publico\index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="publico\login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="publico\login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="publico\publica.master.cs">
+      <DependentUpon>publica.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="publico\publica.master.designer.cs">
+      <DependentUpon>publica.master</DependentUpon>
+    </Compile>
+    <Compile Include="user\index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user\index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
     </Compile>
     <Compile Include="user\user.master.cs">
       <DependentUpon>user.master</DependentUpon>
@@ -103,7 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="main.Master" />
-    <Content Include="public\public.master" />
+    <Content Include="publico\publica.master" />
     <Content Include="admin\admin.master" />
     <Content Include="user\user.master" />
     <Content Include="packages.config" />

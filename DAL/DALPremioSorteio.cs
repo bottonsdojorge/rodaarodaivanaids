@@ -26,17 +26,18 @@ namespace RodaARodaIvanaids.DAL
                     {
                         if (dr.HasRows)
                         {
-                            int id;
+                            int id, sid;
                             Premio p = new Premio();
                             DateTime d;
                             Usuario u = new Usuario();
                             while (dr.Read())
                             {
                                 id = (Int32)dr["id"];
+                                sid = (Int32)dr["Sorteio_id"];
                                 p = DALPremio.Select((Int32)dr["Premio_id"]);
                                 d = (DateTime)dr["dataSorteio"];
                                 u = DALUsuario.Select((Int32)dr["Usuario_id"]);
-                                obj = new PremioSorteio(id, p, d, u);
+                                obj = new PremioSorteio(id, sid, p, d, u);
                                 lista.Add(obj);
                             }
                         }
@@ -65,16 +66,18 @@ namespace RodaARodaIvanaids.DAL
                     {
                         if (dr.HasRows)
                         {
+                            int sid;
                             Premio p = new Premio();
                             DateTime d;
                             Usuario u = new Usuario();
                             while (dr.Read())
                             {
+                                sid = (Int32)dr["Sorteio_id"];
                                 id = (Int32)dr["id"];
                                 p = DALPremio.Select((Int32)dr["Premio_id"]);
                                 d = (DateTime)dr["dataSorteio"];
                                 u = DALUsuario.Select((Int32)dr["Usuario_id"]);
-                                obj = new PremioSorteio(id, p, d, u);
+                                obj = new PremioSorteio(id, sid, p, d, u);
                             }
                         }
                     }
@@ -96,10 +99,11 @@ namespace RodaARodaIvanaids.DAL
                 {
                     using (conn = new MySqlConnection(dbString))
                     {
-                        string query = "INSERT INTO PremioSorteio (Premio_id, dataSorteio, Usuario_id) VALUES (@Premio_id, @dataSorteio, @Usuario) SET IDENTITY_SCOPE = @id;";
+                        string query = "INSERT INTO PremioSorteio (Premio_id, Sorteio_id, dataSorteio, Usuario_id) VALUES (@Premio_id, @Sorteio_id, @dataSorteio, @Usuario) SET IDENTITY_SCOPE = @id;";
                         MySqlCommand cmd = new MySqlCommand(query, conn);
                         cmd.Parameters["@id"].Direction = System.Data.ParameterDirection.Output;
                         cmd.Parameters.Add("@Premio_id", MySqlDbType.Int32).Value = obj.premio.id;
+                        cmd.Parameters.Add("@Sorteio_id", MySqlDbType.Int32).Value = obj.idSorteio;
                         cmd.Parameters.Add("@Usuario_id", MySqlDbType.Int32).Value = obj.usuarioSorteado.id;
                         cmd.Parameters.Add("@dataSorteio", MySqlDbType.DateTime).Value = obj.dataSorteio;
                         cmd.ExecuteNonQuery();
@@ -140,10 +144,11 @@ namespace RodaARodaIvanaids.DAL
                 {
                     using (conn = new MySqlConnection(dbString))
                     {
-                        string query = "UPDATE PremioSorteio SET Premio_id = @Premio_id, dataSorteio = @dataSorteio, Usuario_id = @Usuario_id WHERE id = @id;";
+                        string query = "UPDATE PremioSorteio SET Premio_id = @Premio_id, Sorteio_id = @Sorteio_id, dataSorteio = @dataSorteio, Usuario_id = @Usuario_id WHERE id = @id;";
                         MySqlCommand cmd = new MySqlCommand(query, conn);
                         cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = obj.id;
                         cmd.Parameters.Add("@Premio_id", MySqlDbType.Int32).Value = obj.premio.id;
+                        cmd.Parameters.Add("@Sorteio_id", MySqlDbType.Int32).Value = obj.idSorteio;
                         cmd.Parameters.Add("@Usuario_id", MySqlDbType.Int32).Value = obj.usuarioSorteado.id;
                         cmd.Parameters.Add("@dataSorteio", MySqlDbType.DateTime).Value = obj.dataSorteio;
                         cmd.ExecuteNonQuery();

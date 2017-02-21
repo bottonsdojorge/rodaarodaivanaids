@@ -7,9 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RodaARodaIvanaids.public {
-    
-    
-    public partial class _public {
+namespace RodaARodaIvanaids.user
+{
+
+
+    public partial class index
+    {
     }
 }

@@ -32,19 +32,28 @@ namespace RodaARodaIvanaids.Model
             get { return _cpf; }
             set { _cpf = value; }
         }
+        private bool _admin;
+        public bool admin
+        {
+            get { return _admin; }
+            set { _admin = value; }
+        }
+        
         public Usuario()
         {
             id = 0;
             nome = "";
             matricula = "";
             cpf = "";
+            admin = false;
         }
-        public Usuario(int id, string n, string m, string c)
+        public Usuario(int id, string n, string m, string c, bool admin = false)
         {
             this.id = id;
             nome = n;
             matricula = m;
             cpf = validarCPF(c);
+            this.admin = admin;
         }
         private string validarCPF(string c)
         {

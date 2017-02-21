@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RodaARodaIvanaids.user {
+namespace RodaARodaIvanaids.publico {
     
     
-    public partial class user {
+    public partial class publica {
         
         /// <summary>
         /// corpoChild control.

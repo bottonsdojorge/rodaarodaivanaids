@@ -11,7 +11,7 @@ namespace RodaARodaIvanaids.admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            DAL.DALUsuario.AcessoAdmin();
         }
     }
 }

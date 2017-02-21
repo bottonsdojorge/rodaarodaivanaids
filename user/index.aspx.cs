@@ -7,11 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace RodaARodaIvanaids.user
 {
-    public partial class user : System.Web.UI.MasterPage
+    public partial class index : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            DAL.DALUsuario.AcessoPrivado();
+
         }
     }
 }
