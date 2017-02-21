@@ -3,6 +3,7 @@ using RodaARodaIvanaids.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -19,7 +20,7 @@ namespace RodaARodaIvanaids.DAL
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "SELECT * FROM PremioSorteio";
+                    conn.Open(); string query = "SELECT * FROM PremioSorteio";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader dr;
                     using (dr = cmd.ExecuteReader())
@@ -58,7 +59,7 @@ namespace RodaARodaIvanaids.DAL
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "SELECT * FROM PremioSorteio WHERE id = @id";
+                    conn.Open(); string query = "SELECT * FROM PremioSorteio WHERE id = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
                     MySqlDataReader dr;
@@ -90,7 +91,7 @@ namespace RodaARodaIvanaids.DAL
             return obj;
         }
         [DataObjectMethod(DataObjectMethodType.Insert)]
-        public static int Insert(PremioSorteio obj)
+        public static void Insert(PremioSorteio obj)
         {
             int id = 0;
             if (obj != new PremioSorteio())
@@ -99,15 +100,13 @@ namespace RodaARodaIvanaids.DAL
                 {
                     using (conn = new MySqlConnection(dbString))
                     {
-                        string query = "INSERT INTO PremioSorteio (Premio_id, Sorteio_id, dataSorteio, Usuario_id) VALUES (@Premio_id, @Sorteio_id, @dataSorteio, @Usuario) SET IDENTITY_SCOPE = @id;";
+                        conn.Open(); string query = "INSERT INTO PremioSorteio (Premio_id, Sorteio_id, dataSorteio, Usuario_id) VALUES (@Premio_id, @Sorteio_id, @dataSorteio, @Usuario)";
                         MySqlCommand cmd = new MySqlCommand(query, conn);
-                        cmd.Parameters["@id"].Direction = System.Data.ParameterDirection.Output;
                         cmd.Parameters.Add("@Premio_id", MySqlDbType.Int32).Value = obj.premio.id;
                         cmd.Parameters.Add("@Sorteio_id", MySqlDbType.Int32).Value = obj.idSorteio;
                         cmd.Parameters.Add("@Usuario_id", MySqlDbType.Int32).Value = obj.usuarioSorteado.id;
                         cmd.Parameters.Add("@dataSorteio", MySqlDbType.DateTime).Value = obj.dataSorteio;
                         cmd.ExecuteNonQuery();
-                        id = (Int32)cmd.Parameters["@id"].Value;
                     }
                 }
                 catch (Exception)
@@ -115,7 +114,6 @@ namespace RodaARodaIvanaids.DAL
                     throw;
                 }
             }
-            return id;
         }
         [DataObjectMethod(DataObjectMethodType.Delete)]
         public static void Delete(PremioSorteio obj)
@@ -124,7 +122,7 @@ namespace RodaARodaIvanaids.DAL
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "DELETE FROM PremioSorteio WHERE id = @id";
+                    conn.Open(); string query = "DELETE FROM PremioSorteio WHERE id = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = obj.id;
                     cmd.ExecuteNonQuery();
@@ -144,7 +142,7 @@ namespace RodaARodaIvanaids.DAL
                 {
                     using (conn = new MySqlConnection(dbString))
                     {
-                        string query = "UPDATE PremioSorteio SET Premio_id = @Premio_id, Sorteio_id = @Sorteio_id, dataSorteio = @dataSorteio, Usuario_id = @Usuario_id WHERE id = @id;";
+                        conn.Open(); string query = "UPDATE PremioSorteio SET Premio_id = @Premio_id, Sorteio_id = @Sorteio_id, dataSorteio = @dataSorteio, Usuario_id = @Usuario_id WHERE id = @id;";
                         MySqlCommand cmd = new MySqlCommand(query, conn);
                         cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = obj.id;
                         cmd.Parameters.Add("@Premio_id", MySqlDbType.Int32).Value = obj.premio.id;

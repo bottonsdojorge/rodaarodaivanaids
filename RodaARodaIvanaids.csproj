@@ -61,6 +61,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin\index.aspx" />
+    <Content Include="admin\premios\criar.aspx" />
+    <Content Include="admin\premios\editar.aspx" />
+    <Content Include="admin\premios\ver.aspx" />
+    <Content Include="admin\sorteios\criar.aspx" />
+    <Content Include="admin\sorteios\editar.aspx" />
+    <Content Include="admin\sorteios\ver.aspx" />
+    <Content Include="admin\usuarios\criar.aspx" />
+    <Content Include="admin\usuarios\editar.aspx" />
+    <Content Include="admin\usuarios\ver.aspx" />
     <Content Include="publico\index.aspx" />
     <Content Include="publico\login.aspx" />
     <Content Include="user\index.aspx" />
@@ -80,6 +89,69 @@
     </Compile>
     <Compile Include="admin\index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\premios\criar.aspx.cs">
+      <DependentUpon>criar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\premios\criar.aspx.designer.cs">
+      <DependentUpon>criar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\premios\editar.aspx.cs">
+      <DependentUpon>editar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\premios\editar.aspx.designer.cs">
+      <DependentUpon>editar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\premios\ver.aspx.cs">
+      <DependentUpon>ver.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\premios\ver.aspx.designer.cs">
+      <DependentUpon>ver.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\sorteios\criar.aspx.cs">
+      <DependentUpon>criar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\sorteios\criar.aspx.designer.cs">
+      <DependentUpon>criar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\sorteios\editar.aspx.cs">
+      <DependentUpon>editar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\sorteios\editar.aspx.designer.cs">
+      <DependentUpon>editar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\sorteios\ver.aspx.cs">
+      <DependentUpon>ver.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\sorteios\ver.aspx.designer.cs">
+      <DependentUpon>ver.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\usuarios\criar.aspx.cs">
+      <DependentUpon>criar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\usuarios\criar.aspx.designer.cs">
+      <DependentUpon>criar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\usuarios\editar.aspx.cs">
+      <DependentUpon>editar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\usuarios\editar.aspx.designer.cs">
+      <DependentUpon>editar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\usuarios\ver.aspx.cs">
+      <DependentUpon>ver.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\usuarios\ver.aspx.designer.cs">
+      <DependentUpon>ver.aspx</DependentUpon>
     </Compile>
     <Compile Include="DAL\DAL.cs" />
     <Compile Include="DAL\DALPremio.cs" />

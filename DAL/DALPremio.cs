@@ -3,6 +3,7 @@ using RodaARodaIvanaids.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -19,7 +20,7 @@ namespace RodaARodaIvanaids.DAL
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "SELECT * FROM Premio";
+                    conn.Open(); string query = "SELECT * FROM Premio";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader dr;
                     using (dr = cmd.ExecuteReader())
@@ -54,7 +55,7 @@ namespace RodaARodaIvanaids.DAL
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "SELECT * FROM Premio WHERE id = @id";
+                    conn.Open(); string query = "SELECT * FROM Premio WHERE id = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
                     MySqlDataReader dr;
@@ -80,7 +81,7 @@ namespace RodaARodaIvanaids.DAL
             return obj;
         }
         [DataObjectMethod(DataObjectMethodType.Insert)]
-        public static int Insert(Premio obj)
+        public static void Insert(Premio obj)
         {
             int id = 0;
             if (obj != new Premio())
@@ -89,13 +90,11 @@ namespace RodaARodaIvanaids.DAL
                 {
                     using (conn = new MySqlConnection(dbString))
                     {
-                        string query = "INSERT INTO Premio (nome, descricao) VALUES (@nome, @descricao) SET IDENTITY_SCOPE = @id;";
+                        conn.Open(); string query = "INSERT INTO Premio (nome, descricao) VALUES (@nome, @descricao)";
                         MySqlCommand cmd = new MySqlCommand(query, conn);
-                        cmd.Parameters["@id"].Direction = System.Data.ParameterDirection.Output;
                         cmd.Parameters.Add("@nome", MySqlDbType.VarChar).Value = obj.nome;
                         cmd.Parameters.Add("@descricao", MySqlDbType.VarChar).Value = obj.descricao;
                         cmd.ExecuteNonQuery();
-                        id = (Int32)cmd.Parameters["@id"].Value;
                     }
                 }
                 catch (Exception)
@@ -103,7 +102,6 @@ namespace RodaARodaIvanaids.DAL
                     throw;
                 }
             }
-            return id;
         }
         [DataObjectMethod(DataObjectMethodType.Delete)]
         public static void Delete(Premio obj)
@@ -112,7 +110,7 @@ namespace RodaARodaIvanaids.DAL
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "DELETE FROM Premio WHERE id = @id";
+                    conn.Open(); string query = "DELETE FROM Premio WHERE id = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = obj.id;
                     cmd.ExecuteNonQuery();
@@ -132,7 +130,7 @@ namespace RodaARodaIvanaids.DAL
                 {
                     using (conn = new MySqlConnection(dbString))
                     {
-                        string query = "UPDATE Premio SET nome = @nome, descricao = @descricao WHERE id = @id;";
+                        conn.Open(); string query = "UPDATE Premio SET nome = @nome, descricao = @descricao WHERE id = @id;";
                         MySqlCommand cmd = new MySqlCommand(query, conn);
                         cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = obj.id;
                         cmd.Parameters.Add("@nome", MySqlDbType.VarChar).Value = obj.nome;

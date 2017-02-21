@@ -5,9 +5,24 @@
         <div class="row">
         	<div class="col-xs-12">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a>Cadastrar Usuário</a></li>
-                    <li class="list-inline-item"><a>Gerenciar Prêmios</a></li>
-                    <li class="list-inline-item"><a>Gerenciar Sorteios</a></li>
+                    <li class="list-inline-item">Usuários
+                        <ul class="list">
+                            <li class="list-item"><asp:HyperLink NavigateUrl="~/admin/usuarios/criar.aspx" runat="server">Criar</asp:HyperLink></li>
+                            <li class="list-item"><asp:HyperLink NavigateUrl="~/admin/usuarios/ver.aspx" runat="server">Ver</asp:HyperLink></li>
+                        </ul>
+                    </li>
+                    <li class="list-inline-item">Prêmios
+                        <ul class="list">
+                            <li class="list-item"><asp:HyperLink NavigateUrl="~/admin/premios/criar.aspx" runat="server">Criar</asp:HyperLink></li>
+                            <li class="list-item"><asp:HyperLink NavigateUrl="~/admin/premios/ver.aspx" runat="server">Ver</asp:HyperLink></li>
+                        </ul>
+                    </li>
+                    <li class="list-inline-item">Sorteios
+                        <ul class="list">
+                            <li class="list-item"><asp:HyperLink NavigateUrl="~/admin/sorteios/criar.aspx" runat="server">Criar</asp:HyperLink></li>
+                            <li class="list-item"><asp:HyperLink NavigateUrl="~/admin/sorteios/ver.aspx" runat="server">Ver</asp:HyperLink></li>
+                        </ul>
+                    </li>
                 </ul>
         	</div>
         </div>

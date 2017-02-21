@@ -5,6 +5,7 @@ using System.Web;
 using MySql.Data.MySqlClient;
 using System.ComponentModel;
 using RodaARodaIvanaids.Model;
+using System.Data;
 namespace RodaARodaIvanaids.DAL
 {
     public class DALUsuario : DAL
@@ -18,7 +19,7 @@ namespace RodaARodaIvanaids.DAL
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "SELECT * FROM Usuario";
+                    conn.Open(); string query = "SELECT * FROM Usuario";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader dr;
                     using (dr = cmd.ExecuteReader())
@@ -56,7 +57,7 @@ namespace RodaARodaIvanaids.DAL
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "SELECT * FROM Usuario WHERE admin = false";
+                    conn.Open(); string query = "SELECT * FROM Usuario WHERE admin = false";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     MySqlDataReader dr;
                     using (dr = cmd.ExecuteReader())
@@ -94,7 +95,7 @@ namespace RodaARodaIvanaids.DAL
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "SELECT * FROM Usuario WHERE id = @id";
+                    conn.Open(); string query = "SELECT * FROM Usuario WHERE id = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
                     MySqlDataReader dr;
@@ -131,7 +132,7 @@ namespace RodaARodaIvanaids.DAL
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "SELECT * FROM Usuario u INNER JOIN InscritoSorteio i ON i.Usuario_id = u.id WHERE i.Sorteio_id = @sid";
+                    conn.Open(); string query = "SELECT * FROM Usuario u INNER JOIN InscritoSorteio i ON i.Usuario_id = u.id WHERE i.Sorteio_id = @sid";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.Add("@sid", MySqlDbType.Int32).Value = sid;
                     MySqlDataReader dr;
@@ -162,7 +163,7 @@ namespace RodaARodaIvanaids.DAL
             return u;
         }
         [DataObjectMethod(DataObjectMethodType.Insert)]
-        public static int Insert(Usuario obj)
+        public static void Insert(Usuario obj)
         {
             int id = 0;
             if (obj != new Usuario())
@@ -171,15 +172,13 @@ namespace RodaARodaIvanaids.DAL
                 {
                     using (conn = new MySqlConnection(dbString))
                     {
-                        string query = "INSERT INTO Usuario (nome, matricula, cpf, admin) VALUES (@nome, @matricula, @cpf, @admin) SET IDENTITY_SCOPE = @id;";
+                        conn.Open(); string query = "INSERT INTO Usuario (nome, matricula, cpf, admin) VALUES (@nome, @matricula, @cpf, @admin)";
                         MySqlCommand cmd = new MySqlCommand(query, conn);
-                        cmd.Parameters["@id"].Direction = System.Data.ParameterDirection.Output;
                         cmd.Parameters.Add("@nome", MySqlDbType.VarChar).Value = obj.nome;
                         cmd.Parameters.Add("@matricula", MySqlDbType.VarChar).Value = obj.matricula;
                         cmd.Parameters.Add("@admin", MySqlDbType.Bit).Value = obj.admin;
                         cmd.Parameters.Add("@cpf", MySqlDbType.VarChar).Value = obj.cpf;
                         cmd.ExecuteNonQuery();
-                        id = (Int32)cmd.Parameters["@id"].Value;
                     }
                 }
                 catch (Exception)
@@ -187,7 +186,6 @@ namespace RodaARodaIvanaids.DAL
                     throw;
                 }
             }
-            return id;
         }
         [DataObjectMethod(DataObjectMethodType.Delete)]
         public static void Delete(Usuario obj)
@@ -196,7 +194,7 @@ namespace RodaARodaIvanaids.DAL
             {
                 using (conn = new MySqlConnection(dbString))
                 {
-                    string query = "DELETE FROM Usuario WHERE id = @id";
+                    conn.Open(); string query = "DELETE FROM Usuario WHERE id = @id";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = obj.id;
                     cmd.ExecuteNonQuery();
@@ -216,7 +214,7 @@ namespace RodaARodaIvanaids.DAL
                 {
                     using (conn = new MySqlConnection(dbString))
                     {
-                        string query = "UPDATE Usuario SET nome = @nome, matricula = @matricula, cpf = @cpf WHERE id = @id;";
+                        conn.Open(); string query = "UPDATE Usuario SET nome = @nome, matricula = @matricula, cpf = @cpf WHERE id = @id;";
                         MySqlCommand cmd = new MySqlCommand(query, conn);
                         cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = obj.id;
                         cmd.Parameters.Add("@nome", MySqlDbType.VarChar).Value = obj.nome;
@@ -237,8 +235,7 @@ namespace RodaARodaIvanaids.DAL
             MySqlConnection conn = new MySqlConnection(dbString);
             try
             {
-                conn.Open();
-                string query = "SELECT * FROM Usuario WHERE matricula = @matricula AND cpf = @cpf";
+                conn.Open(); string query = "SELECT * FROM Usuario WHERE matricula = @matricula AND cpf = @cpf";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.Add("@cpf", MySqlDbType.VarChar).Value = cpf;
                 cmd.Parameters.Add("@matricula", MySqlDbType.VarChar).Value = matricula;
@@ -276,7 +273,7 @@ namespace RodaARodaIvanaids.DAL
         }
         public static void AcessoAdmin()
         {
-            if (HttpContext.Current.Session["autenticado"] == null || (bool)HttpContext.Current.Session["autenticado"] == false || (bool)HttpContext.Current.Session["admin"] == false || (bool)HttpContext.Current.Session["admin"] == null)
+            if (HttpContext.Current.Session["autenticado"] == null || (bool)HttpContext.Current.Session["autenticado"] == false || (bool)HttpContext.Current.Session["admin"] == false || HttpContext.Current.Session["admin"] == null)
             {
                 HttpContext.Current.Response.Redirect("~/publico/index.aspx");
             }
