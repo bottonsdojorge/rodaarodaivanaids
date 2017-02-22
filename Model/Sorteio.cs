@@ -62,7 +62,7 @@ namespace RodaARodaIvanaids.Model
             descricao = "";
             sorteado = false;
         }
-        public Sorteio(int i, List<PremioSorteio> p, DateTime d, string n, string desc, List<Usuario> u)
+        public Sorteio(int i, List<PremioSorteio> p, DateTime d, string n, string desc, List<Usuario> u, bool sorteado = false)
         {
             id = i;
             premios = p;
@@ -91,7 +91,7 @@ namespace RodaARodaIvanaids.Model
         public void InscreverUsuario(Usuario u)
         {
             // Fazendo gambiarra pq preguiça
-            if (u != new Usuario() && u == DALUsuario.Select(u.id))
+            if (u != new Usuario())
             {
                 inscritos.Add(u);
             }
@@ -104,7 +104,7 @@ namespace RodaARodaIvanaids.Model
             // Deveria ir pro DAL mas n vai não
             if (sorteado == false)
             {
-                List<Usuario> us = DALUsuario.SelectAllNonAdmin();
+                List<Usuario> us = DALUsuario.SelectFromSorteio(id);
                 Usuario u;
                 int c = us.Count;
                 Random r = new Random();
@@ -112,9 +112,10 @@ namespace RodaARodaIvanaids.Model
                 foreach (var premio in premios)
                 {
                     i = r.Next(c);
-                    u = us[c];
+                    u = us[i];
                     premio.usuarioSorteado = u;
                 }
+                sorteado = true;
                 DALSorteio.Update(this);
             }
             else

@@ -13,5 +13,12 @@ namespace RodaARodaIvanaids.admin.premios
         {
 
         }
+
+        protected void btnCadastras_Click(object sender, EventArgs e)
+        {
+            Model.Premio u = new Model.Premio(0, txtNome.Value, txtDescricao.Value);
+            DAL.DALPremio.Insert(u);
+            Response.Redirect("~/admin/premios/ver.aspx");
+        }
     }
 }

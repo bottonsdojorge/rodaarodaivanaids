@@ -18,20 +18,32 @@ namespace RodaARodaIvanaids.admin.usuarios
         
         protected void Page_Load(object sender, EventArgs e)
         {
-            try
+            if (!IsPostBack)
             {
                 u = DAL.DALUsuario.Select(Convert.ToInt32(Request.QueryString["uid"]));
-                if (u != new Model.Usuario())
+                Session["u"] = u;
+                try
                 {
-                    txtCpf.Value = u.cpf;
-                    txtMatricula.Value = u.matricula;
-                    txtNome.Value = u.nome;
-                    checkAdmin.Checked = u.admin;
+                    if (u.matricula != "")
+                    {
+                        txtCpf.Value = u.cpf;
+                        txtMatricula.Value = u.matricula;
+                        txtNome.Value = u.nome;
+                        checkAdmin.Checked = u.admin;
+                    }
+                    else
+                    {
+                        formEdicao.InnerHtml = "<p class='text-alert'>Não foi possível carregar usuário</p>";
+                    }
+                }
+                catch (Exception)
+                {
+                    Response.Write("Ocorreu um erro ao carregar o usuário");
                 }
             }
-            catch (Exception)
+            else
             {
-                Response.Write("Ocorreu um erro ao carregar o usuário");
+                u = (Model.Usuario)Session["u"];
             }
         }
 
@@ -42,7 +54,7 @@ namespace RodaARodaIvanaids.admin.usuarios
             u.matricula = txtMatricula.Value;
             u.cpf = txtCpf.Value;
             DAL.DALUsuario.Update(u);
-            Response.Redirect("~/admin/usuarios/ver");
+            Response.Redirect("~/admin/usuarios/ver.aspx");
         }
     }
 }

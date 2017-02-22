@@ -3,8 +3,10 @@
     <div class="row">
     	<div class="col-xs-12">
     		<h1>Edição de usuários</h1>
+            <div id="formEdicao" runat="server">   
     	    <div class="form-group">
                 <label for="txtNome">Nome:</label>
+                
                 <input type="text" class="form-control" id="txtNome" runat="server">
                 <asp:RequiredFieldValidator ControlToValidate="txtNome" ID="RequiredFieldValidator1" runat="server" ErrorMessage="Por favor, preencha"></asp:RequiredFieldValidator>
     	    </div>
@@ -26,6 +28,7 @@
                 </label>
             </div>
             <asp:Button Text="Atualizar" CssClass="btn btn-primary" ID="btnAtualizar" runat="server" OnClick="btnAtualizar_Click" />
+            </div>
     	</div>
     </div>
 </asp:Content>

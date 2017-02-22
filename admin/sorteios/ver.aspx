@@ -11,6 +11,7 @@
                         <th>Data</th>
                         <th>Número de inscritos</th>
                         <th>Sorteado</th>
+                        <th>Prêmios</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,7 +24,9 @@
                         <td><%= obj.data %></td>
                         <td><%= obj.inscritos.Count %></td>
                         <td><%= (obj.sorteado) ? "Sim" : "Não" %></td>
+                        <td><% foreach (var item in obj.premios) { Response.Write(item.premio.nome + ", "); } %></td>
                         <td><a href="editar.aspx/?uid=<%= obj.id %>">Editar</a></td>
+                        <td><% if (!obj.sorteado) {  %><a href="sortear.aspx?uid=<%=obj.id %>">Sortear</a><% } %></td>
                     </tr>
                      <% } %>
                 </tbody>

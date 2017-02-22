@@ -246,6 +246,7 @@ namespace RodaARodaIvanaids.DAL
                     {
                         dr.Read();
                         HttpContext.Current.Session["autenticado"] = true;
+                        HttpContext.Current.Session["idautenticado"] = Convert.ToInt32(dr["id"]);
                         HttpContext.Current.Session["admin"] = Convert.ToBoolean(dr["admin"]);                        
                     }
                 }

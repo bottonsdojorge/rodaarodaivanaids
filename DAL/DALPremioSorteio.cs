@@ -77,7 +77,10 @@ namespace RodaARodaIvanaids.DAL
                                 id = (Int32)dr["id"];
                                 p = DALPremio.Select((Int32)dr["Premio_id"]);
                                 d = (DateTime)dr["dataSorteio"];
-                                u = DALUsuario.Select((Int32)dr["Usuario_id"]);
+                                if (dr["Usuario_id"].ToString() != "")
+                                {
+                                    u = DALUsuario.Select(Convert.ToInt32(dr["Usuario_id"].ToString()));
+                                }
                                 obj = new PremioSorteio(id, sid, p, d, u);
                             }
                         }
@@ -100,11 +103,23 @@ namespace RodaARodaIvanaids.DAL
                 {
                     using (conn = new MySqlConnection(dbString))
                     {
-                        conn.Open(); string query = "INSERT INTO PremioSorteio (Premio_id, Sorteio_id, dataSorteio, Usuario_id) VALUES (@Premio_id, @Sorteio_id, @dataSorteio, @Usuario)";
+                        conn.Open();
+                        string query;
+                        if (obj.usuarioSorteado.id != 0)
+                        {
+                            query = "INSERT INTO PremioSorteio (Premio_id, Sorteio_id, dataSorteio, Usuario_id) VALUES (@Premio_id, @Sorteio_id, @dataSorteio, @Usuario_id)";
+                        }
+                        else
+                        {
+                            query = "INSERT INTO PremioSorteio (Premio_id, Sorteio_id, dataSorteio) VALUES (@Premio_id, @Sorteio_id, @dataSorteio)";
+                        }
                         MySqlCommand cmd = new MySqlCommand(query, conn);
                         cmd.Parameters.Add("@Premio_id", MySqlDbType.Int32).Value = obj.premio.id;
                         cmd.Parameters.Add("@Sorteio_id", MySqlDbType.Int32).Value = obj.idSorteio;
-                        cmd.Parameters.Add("@Usuario_id", MySqlDbType.Int32).Value = obj.usuarioSorteado.id;
+                        if (obj.usuarioSorteado.id != 0)
+                        {
+                            cmd.Parameters.Add("@Usuario_id", MySqlDbType.Int32).Value = obj.usuarioSorteado.id;
+                        }
                         cmd.Parameters.Add("@dataSorteio", MySqlDbType.DateTime).Value = obj.dataSorteio;
                         cmd.ExecuteNonQuery();
                     }

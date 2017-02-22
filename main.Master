@@ -12,6 +12,14 @@
 <body>
     <form id="form1" runat="server">
     <div class="container">
+        <ul class="list-unstyled">
+            <li>
+                <asp:HyperLink NavigateUrl="~/admin/index.aspx" runat="server" Text="Admin DashBoard"/></li>
+            <li>
+                <asp:HyperLink NavigateUrl="~/publico/login.aspx" runat="server"  Text="Login"/></li>
+            <li>
+                <asp:HyperLink NavigateUrl="~/publico/index.aspx" runat="server" text="Home"/></li>
+        </ul>
         <asp:ContentPlaceHolder ID="corpo" runat="server">
         
         </asp:ContentPlaceHolder>

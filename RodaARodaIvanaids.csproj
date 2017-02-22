@@ -66,6 +66,7 @@
     <Content Include="admin\premios\ver.aspx" />
     <Content Include="admin\sorteios\criar.aspx" />
     <Content Include="admin\sorteios\editar.aspx" />
+    <Content Include="admin\sorteios\sortear.aspx" />
     <Content Include="admin\sorteios\ver.aspx" />
     <Content Include="admin\usuarios\criar.aspx" />
     <Content Include="admin\usuarios\editar.aspx" />
@@ -124,6 +125,13 @@
     </Compile>
     <Compile Include="admin\sorteios\editar.aspx.designer.cs">
       <DependentUpon>editar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\sorteios\sortear.aspx.cs">
+      <DependentUpon>sortear.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\sorteios\sortear.aspx.designer.cs">
+      <DependentUpon>sortear.aspx</DependentUpon>
     </Compile>
     <Compile Include="admin\sorteios\ver.aspx.cs">
       <DependentUpon>ver.aspx</DependentUpon>

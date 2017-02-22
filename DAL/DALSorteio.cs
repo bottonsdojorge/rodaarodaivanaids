@@ -32,6 +32,7 @@ namespace RodaARodaIvanaids.DAL
                             List<Usuario> us;
                             List<PremioSorteio> premios = new List<PremioSorteio>();
                             string nome, descricao;
+                            bool sorteado;
                             while (dr.Read())
                             {
                                 id = (Int32)dr["id"];
@@ -40,7 +41,8 @@ namespace RodaARodaIvanaids.DAL
                                 us = DALUsuario.SelectFromSorteio(id);
                                 premios = SelectPremios(id);
                                 descricao = (string)dr["descricao"];
-                                obj = new Sorteio(id, premios, data, nome, descricao, us);
+                                sorteado = Convert.ToBoolean(dr["sorteado"]);
+                                obj = new Sorteio(id, premios, data, nome, descricao, us, sorteado);
                                 lista.Add(obj);
                             }
                         }
@@ -78,7 +80,11 @@ namespace RodaARodaIvanaids.DAL
                                 id = (Int32)dr["id"];
                                 p = DALPremio.Select((Int32)dr["Premio_id"]);
                                 d = (DateTime)dr["dataSorteio"];
-                                u = DALUsuario.Select((Int32)dr["Usuario_id"]);
+                                if (dr["Usuario_id"].ToString() != "")
+                                {
+                                    int uid = Convert.ToInt32(dr["Usuario_id"].ToString());
+                                    u = DALUsuario.Select(uid);
+                                }
                                 obj = new PremioSorteio(id, sid, p, d, u);
                                 lista.Add(obj);
                             }
@@ -112,6 +118,7 @@ namespace RodaARodaIvanaids.DAL
                             List<Usuario> us;
                             List<PremioSorteio> premios = new List<PremioSorteio>();
                             string nome, descricao;
+                            bool sorteado;
                             while (dr.Read())
                             {
                                 id = (Int32)dr["id"];
@@ -120,7 +127,9 @@ namespace RodaARodaIvanaids.DAL
                                 us = DALUsuario.SelectFromSorteio(id);
                                 premios = SelectPremios(id);
                                 descricao = (string)dr["descricao"];
-                                obj = new Sorteio(id, premios, data, nome, descricao, us);
+                                sorteado = Convert.ToBoolean(dr["sorteado"]);
+
+                                obj = new Sorteio(id, premios, data, nome, descricao, us, sorteado);
                             }
                         }
                     }
@@ -133,7 +142,7 @@ namespace RodaARodaIvanaids.DAL
             return obj;
         }
         [DataObjectMethod(DataObjectMethodType.Insert)]
-        public static void Insert(Sorteio obj)
+        public static int Insert(Sorteio obj)
         {
             int id = 0;
             if (obj != new Sorteio())
@@ -149,10 +158,34 @@ namespace RodaARodaIvanaids.DAL
                         cmd.Parameters.Add("@descricao", MySqlDbType.VarChar).Value = obj.descricao;
                         cmd.Parameters.Add("@sorteado", MySqlDbType.Bit).Value = obj.sorteado;
                         cmd.ExecuteNonQuery();
+                        id = Convert.ToInt32(cmd.LastInsertedId);
                         foreach (var item in obj.premios)
                         {
+                            item.idSorteio = id;
                             DALPremioSorteio.Insert(item);                            
                         }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return id;
+        }
+        public static void InsertUsuario(Usuario obj, int sid)
+        {
+            if (obj != new Usuario())
+            {
+                try
+                {
+                    using (conn = new MySqlConnection(dbString))
+                    {
+                        conn.Open(); string query = "INSERT INTO InscritoSorteio (Sorteio_id, Usuario_id) VALUES (@sid, @uid)";
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.Parameters.Add("@sid", MySqlDbType.Int32).Value = sid;
+                        cmd.Parameters.Add("@uid", MySqlDbType.Int32).Value = obj.id;
+                        cmd.ExecuteNonQuery();
                     }
                 }
                 catch (Exception)
@@ -198,7 +231,7 @@ namespace RodaARodaIvanaids.DAL
                         cmd.Parameters.Add("@data", MySqlDbType.DateTime).Value = obj.data;
                         cmd.Parameters.Add("@nome", MySqlDbType.VarChar).Value = obj.nome;
                         cmd.Parameters.Add("@descricao", MySqlDbType.VarChar).Value = obj.descricao;
-                        cmd.Parameters.Add("@sorteado", MySqlDbType.Bit).Value = obj.sorteado;
+                        cmd.Parameters.Add("@sorteado", MySqlDbType.Bit).Value = (obj.sorteado) ? 1 : 0;
                         cmd.ExecuteNonQuery();
                         foreach (var item in obj.premios)
                         {
